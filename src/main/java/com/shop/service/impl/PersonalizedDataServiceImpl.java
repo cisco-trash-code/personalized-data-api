@@ -2,6 +2,7 @@ package com.shop.service.impl;
 
 import com.shop.dto.Shelf;
 import com.shop.dto.ShopperRequest;
+import com.shop.dto.ShopperResponse;
 import com.shop.exception.InvalidPageSizeException;
 import com.shop.exception.InvalidRequestException;
 import com.shop.model.Product;
@@ -23,7 +24,7 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
     private final ProductRepository productRepository;
 
     @Override
-    public Page<Product> getPersonalizedData(ShopperRequest request, int page, int size) {
+    public ShopperResponse getPersonalizedData(ShopperRequest request, int page, int size) {
         if (request.getShelf().isEmpty()) {
             throw new InvalidRequestException("Shelf is empty");
         }
@@ -38,7 +39,9 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
                     product.ifPresent(productList::add);
                 });
 
-        return getPaginatedProductList(productList, page, size);
+        Page<Product> products = getPaginatedProductList(productList, page, size);
+
+        return new ShopperResponse(request.getShopperId(), products);
     }
 
     private Optional<Product> getProductById(String productId) {

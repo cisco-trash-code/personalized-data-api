@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 @Getter
 @Setter
@@ -14,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class ShopperResponse {
     private String shopperId;
-    private List<Product> products;
+    private Page<Product> products;
 }
