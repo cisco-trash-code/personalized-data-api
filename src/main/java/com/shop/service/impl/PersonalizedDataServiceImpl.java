@@ -2,12 +2,13 @@ package com.shop.service.impl;
 
 import com.shop.dto.Shelf;
 import com.shop.dto.ShopperRequest;
-import com.shop.dto.ShopperResponse;
+import com.shop.exception.InvalidPageSizeException;
 import com.shop.exception.InvalidRequestException;
 import com.shop.model.Product;
 import com.shop.repository.ProductRepository;
 import com.shop.service.PersonalizedDataService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
     private final ProductRepository productRepository;
 
     @Override
-    public ShopperResponse getPersonalizedData(ShopperRequest request) {
+    public Page<Product> getPersonalizedData(ShopperRequest request, int page, int size) {
         if (request.getShelf().isEmpty()) {
             throw new InvalidRequestException("Shelf is empty");
         }
@@ -37,11 +38,32 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
                     product.ifPresent(productList::add);
                 });
 
-        return new ShopperResponse(request.getShopperId(), productList);
+        return getPaginatedProductList(productList, page, size);
     }
 
     private Optional<Product> getProductById(String productId) {
         return productRepository.findById(productId);
+    }
+
+    private Page<Product> getPaginatedProductList(List<Product> productList, int page, int size) {
+        double expectedPage = Math.ceil((double) productList.size() / size);
+
+        if (page >= expectedPage) {
+            throw new InvalidPageSizeException("Invalid page size");
+        }
+
+        final Page<Product> products;
+        Pageable pageable = PageRequest.of(page,size);
+
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), productList.size());
+
+        if (!productList.isEmpty()) {
+            products = new PageImpl<>(productList.subList(start, end), pageable, productList.size());
+        } else {
+            products = new PageImpl<>(productList, pageable, 0);
+        }
+        return products;
     }
 
 }

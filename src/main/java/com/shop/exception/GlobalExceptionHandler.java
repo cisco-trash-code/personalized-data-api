@@ -17,4 +17,10 @@ public class GlobalExceptionHandler {
         return new ErrorMessage(new Date(), HttpStatus.BAD_REQUEST.value(), ex.getMessage());
     }
 
+    @ExceptionHandler(value = InvalidPageSizeException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorMessage invalidPageSizeException(InvalidPageSizeException ex) {
+        return new ErrorMessage(new Date(), HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+    }
+
 }

@@ -1,8 +1,9 @@
 package com.shop.service;
 
 import com.shop.dto.ShopperRequest;
-import com.shop.dto.ShopperResponse;
+import com.shop.model.Product;
+import org.springframework.data.domain.Page;
 
 public interface PersonalizedDataService {
-    ShopperResponse getPersonalizedData(ShopperRequest request);
+    Page<Product> getPersonalizedData(ShopperRequest request, int page, int size);
 }
