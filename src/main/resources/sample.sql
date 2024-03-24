@@ -22,3 +22,10 @@ INSERT INTO product (product_id, category, brand) VALUES
     ('MD-543564698', 'sports', 'Adidas'),
     ('MD-543564699', 'sports', 'Fila'),
     ('MD-543564700', 'sports', 'ESPN');
+
+
+-- Indexing
+
+SELECT * FROM  product WHERE product_id='';
+
+CREATE INDEX idx_product_id ON product(product_id);
