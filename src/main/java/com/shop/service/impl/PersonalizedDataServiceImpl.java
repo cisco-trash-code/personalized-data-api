@@ -9,6 +9,8 @@ import com.shop.model.Product;
 import com.shop.repository.ProductRepository;
 import com.shop.service.PersonalizedDataService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +25,15 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
 
     private final ProductRepository productRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(PersonalizedDataServiceImpl.class);
+
     @Override
     public ShopperResponse getPersonalizedData(ShopperRequest request, int page, int size) {
+
+        logger.info("PersonalizedDataServiceImpl: getPersonalizedData(): accessed");
+
         if (request.getShelf().isEmpty()) {
+            logger.error("PersonalizedDataServiceImpl: getPersonalizedData(): Shelf is empty");
             throw new InvalidRequestException("Shelf is empty");
         }
 
@@ -41,6 +49,8 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
 
         Page<Product> products = getPaginatedProductList(productList, page, size);
 
+        logger.info("PersonalizedDataServiceImpl: getPersonalizedData(): success");
+
         return new ShopperResponse(request.getShopperId(), products);
     }
 
@@ -52,10 +62,12 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
         double expectedPage = Math.ceil((double) productList.size() / size);
 
         if (page >= expectedPage) {
+            logger.error("PersonalizedDataServiceImpl: getPaginatedProductList(): Invalid page size");
             throw new InvalidPageSizeException("Invalid page size");
         }
 
         if (size > 100) {
+            logger.error("PersonalizedDataServiceImpl: getPaginatedProductList(): Maximum page size exceeds");
             throw new InvalidPageSizeException("Maximum page size exceeds");
         }
 

@@ -1,8 +1,8 @@
 -- Create the product table
 CREATE TABLE product (
-    product_id VARCHAR(255) PRIMARY KEY,
-    category VARCHAR(255),
-    brand VARCHAR(255)
+    product_id VARCHAR(50) PRIMARY KEY,
+    category VARCHAR(50),
+    brand VARCHAR(50)
 );
 
 -- Insert sample products
