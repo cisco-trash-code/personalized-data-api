@@ -52,6 +52,10 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
             throw new InvalidPageSizeException("Invalid page size");
         }
 
+        if (size > 100) {
+            throw new InvalidPageSizeException("Maximum page size exceeds");
+        }
+
         final Page<Product> products;
         Pageable pageable = PageRequest.of(page,size);
 
