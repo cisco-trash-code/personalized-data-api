@@ -1,5 +1,4 @@
 -- Create the database
-
 CREATE DATABASE product;
 
 -- Create the product table
