@@ -1,3 +1,7 @@
+-- Create the database
+
+CREATE DATABASE product;
+
 -- Create the product table
 CREATE TABLE product (
     product_id VARCHAR(50) PRIMARY KEY,
@@ -24,8 +28,7 @@ INSERT INTO product (product_id, category, brand) VALUES
     ('MD-543564700', 'sports', 'ESPN');
 
 
--- Indexing
+-- Indexing (If necessary)
+CREATE INDEX idx_product_id ON product(product_id);
 
 SELECT * FROM  product WHERE product_id='';
-
-CREATE INDEX idx_product_id ON product(product_id);
