@@ -2,13 +2,12 @@ package com.shop.util;
 
 import com.shop.dto.ShopperRequest;
 import com.shop.exception.InvalidRequestException;
-import com.shop.service.impl.PersonalizedDataServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RequestValidation {
 
-    private static final Logger logger = LoggerFactory.getLogger(PersonalizedDataServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(RequestValidation.class);
 
     public static void validateRequest(ShopperRequest request) {
 
