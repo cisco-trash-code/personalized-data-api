@@ -4,10 +4,10 @@ import com.shop.dto.Shelf;
 import com.shop.dto.ShopperRequest;
 import com.shop.dto.ShopperResponse;
 import com.shop.exception.InvalidPageSizeException;
-import com.shop.exception.InvalidRequestException;
 import com.shop.model.Product;
 import com.shop.repository.ProductRepository;
 import com.shop.service.PersonalizedDataService;
+import com.shop.util.RequestValidation;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,10 +35,7 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
     public ShopperResponse getPersonalizedData(ShopperRequest request, int page, int size) {
         logger.info("PersonalizedDataServiceImpl: getPersonalizedData(): accessed");
 
-        if (request.getShelf().isEmpty()) {
-            logger.error("PersonalizedDataServiceImpl: getPersonalizedData(): Shelf is empty");
-            throw new InvalidRequestException("Shelf is empty");
-        }
+        RequestValidation.validateRequest(request);
 
         List<Product> productList = new ArrayList<>();
 
