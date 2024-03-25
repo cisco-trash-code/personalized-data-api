@@ -20,5 +20,16 @@ public class RequestValidation {
             logger.error("PersonalizedDataServiceImpl: getPersonalizedData(): RequestValidation: Shelf is empty");
             throw new InvalidRequestException("Shelf is empty");
         }
+
+        request.getShelf().forEach(r -> {
+            if (r.getProductId() == null) {
+                logger.error("PersonalizedDataServiceImpl: getPersonalizedData(): RequestValidation: productId should not be empty");
+                throw new InvalidRequestException("productId should not be empty");
+            }
+            if (r.getRelevancyScore() == null) {
+                logger.error("PersonalizedDataServiceImpl: getPersonalizedData(): RequestValidation: relevancyScore should not be empty");
+                throw new InvalidRequestException("relevancyScore should not be empty");
+            }
+        });
     }
 }

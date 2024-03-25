@@ -61,9 +61,10 @@ public class PersonalizedDataServiceImpl implements PersonalizedDataService {
 
     /* return paginated list */
     private Page<Product> getPaginatedProductList(List<Product> productList, int page, int size) {
+
         double expectedPage = Math.ceil((double) productList.size() / size);
 
-        if (page >= expectedPage) {
+        if (page >= expectedPage && !productList.isEmpty()) {
             logger.error("PersonalizedDataServiceImpl: getPaginatedProductList(): Invalid page size");
             throw new InvalidPageSizeException("Invalid page size");
         }
